@@ -3,4 +3,4 @@ project(ArchivosYDirectorios)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(ArchivosYDirectorios main.cpp)
+add_executable(ArchivosYDirectorios MadejodeArchivosINGE.cpp)
