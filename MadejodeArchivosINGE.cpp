@@ -1,3 +1,4 @@
+//Jeferson Alexis Suchite Chavez 0909-22-12681
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -7,20 +8,31 @@ void crearArchivos(int cantidad);
 int contarArchivosDeDirectorio();
 void listarArchivosDeDirectorio();
 void mostrarDetalles();
+void buscarArchivosPorNombre(std::string nombreArchivo);
 
 using namespace std;
 
 int main()
 {
     int cantidad;
+    string nombreArchivo;
 
     cout << "Cuantos archivos quiere crear \n";
     cin >> cantidad;
     crearArchivos(cantidad);
     cout << contarArchivosDeDirectorio();
     cout << endl;
+
+    cout << "Ingrese el nombre del archivo que desea buscar: \n";
+    getline(cin, nombreArchivo);
+    buscarArchivosPorNombre(nombreArchivo);
+
     listarArchivosDeDirectorio();
     mostrarDetalles();
+
+    cout << "Ingrese el nombre del archivo que desea buscar: \n";
+    getline(cin, nombreArchivo);
+    buscarArchivosPorNombre(nombreArchivo);
 
     return 0;
 }
@@ -31,9 +43,9 @@ void crearArchivos(int cantidad) {
     for(i=0; i<cantidad; i++){
         ofstream file;
         file.open("C:/Users/Usuario/Desktop/Manejo de Archivos/" + nombreArchivo + to_string(i) +".txt");
-        file << "primera línea\n";
-        file << "segunda línea\n";
-        file << "tercera línea\n";
+        file << "Texto De Prueba\n";
+        file << "Hola, Mucho Gusto\n";
+        file << "Mi nombre es Jack\n";
         file.close();
     }
     cout<<"Archivos creados : " + to_string(i);
@@ -78,6 +90,25 @@ void mostrarDetalles(){
         if (!std::filesystem::is_directory(entry.status())) {
             std::cout << entry.path().filename() << " "
                       << file_size(entry.path()) << std::endl;
+        }
+    }
+}
+
+void buscarArchivosPorNombre(string nombreArchivo) {
+    WIN32_FIND_DATA findFileData;
+    HANDLE hFind;
+    hFind = FindFirstFile("C:/Users/Usuario/Desktop/Manejo de Archivos/*", &findFileData);
+
+    if (hFind == INVALID_HANDLE_VALUE)
+        cout << "Ruta incorrecta";
+    else
+    {
+        cout << "Resultados de la busqueda:\n\n";
+        while (FindNextFile(hFind, &findFileData) != 0) {
+            string archivo = findFileData.cFileName;
+            if (archivo.find(nombreArchivo) != string::npos) {
+                cout << archivo << '\n';
+            }
         }
     }
 }
